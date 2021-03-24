@@ -1,0 +1,73 @@
+package Presentation;
+
+import businessLayer.BllProduct;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
+
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.stream.Stream;
+
+import businessLayer.BllClient;
+import Model.Client;
+
+/** Clasa in care se creeaza un pdf cu un tabel, in care se stocheaza datele din tabela "Client" a bazei de date, in
+ * momentul in care este instantiata in metoda main*/
+public class PdfGeneratorClient {
+    /**Un obiect de tip BllClient*/
+    private  BllClient clientbll;
+
+    /**Constructorul care creeaza tabelul, apeland si metodele de addTableHeader(PdfTable) si addRows(PdfTable)*/
+    public PdfGeneratorClient(String nume) throws DocumentException, IOException, URISyntaxException, SQLException {
+        clientbll=new BllClient();
+        Document document = new Document();
+        PdfWriter.getInstance(document, new FileOutputStream(nume));
+        document.open();
+        PdfPTable table = new PdfPTable(clientbll.getNumberOfColumns());
+        addTableHeader(table);
+        addRows(table);
+        document.add(table);
+        document.close();
+    }
+
+    /**Se creeaza header-ul tabelului cu nuemele coloanelor tabelului Client din baza de date warehouse */
+    private void addTableHeader(PdfPTable table) throws SQLException {
+        String[] columnName=clientbll.getColumnsNames();
+        Stream.of(columnName)
+                .forEach(columnTitle -> {
+                    PdfPCell header = new PdfPCell();
+                    header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                    header.setBorderWidth(2);
+                    header.setPhrase(new Phrase(columnTitle));
+                    table.addCell(header);
+                });
+    }
+
+
+    /**Se adauga celule in tabel cu datele fiecarui client, obtinute prin apelul metodei "getClients()". Fiecare rand va contine
+     * id-ul clientului, numele si adresa*/
+    private void addRows(PdfPTable table) {
+        ArrayList<Client>clienti =new ArrayList<Client>();
+        clienti =clientbll.getClients();
+        for(Client c: clienti)
+        {
+            table.addCell(String.valueOf(c.getClientID()));
+            table.addCell(c.getClientName());
+            table.addCell(c.getClientAdress());
+        }
+
+    }
+
+}
+

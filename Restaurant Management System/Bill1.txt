@@ -1,0 +1,8 @@
+FACTURA
+
+Numar comanda: 1
+Data: 24 Februarie 2020
+Nume produs Salata greceasca Pret:18.0
+Nume produs Vin Pret:50.0
+
+Total: 68.0

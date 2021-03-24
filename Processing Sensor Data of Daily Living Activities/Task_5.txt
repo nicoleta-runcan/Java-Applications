@@ -1,0 +1,10 @@
+For each activity, the entire duration over the monitoring period is
+Breakfast PT2H58M8S
+Toileting PT2H20M34S
+Grooming PT2H40M42S
+Sleeping PT131H3M31S
+Leaving PT27H44M44S
+Spare_Time/TV PT142H28M55S
+Showering PT1H34M9S
+Snack PT6M1S
+Lunch PT5H13M31S

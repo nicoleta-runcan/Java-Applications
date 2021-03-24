@@ -1,0 +1,2 @@
+The number of the distinct days that appear in the monitoring data:
+14
